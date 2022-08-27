@@ -11,7 +11,7 @@ export class SaveFoodDailyComponent implements OnInit {
   public formFoodDaily: FormGroup = this.formBuilder.group({
     foodName: new FormControl(""),
     dailyDate: new FormControl(new Date)
-  })
+  });
 
   constructor(
     private formBuilder: FormBuilder
