@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { IFoodResult } from '@core/interfaces/api-food.interface';
+import { DailyService } from '@module/daily/daily.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-save-food-daily',
@@ -8,16 +11,28 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 })
 export class SaveFoodDailyComponent implements OnInit {
 
-  public formFoodDaily: FormGroup = this.formBuilder.group({
+  foodsSub?: Subscription;
+  foodsResult: IFoodResult[] = [];
+
+  formFoodDaily: FormGroup = this.formBuilder.group({
     foodName: new FormControl(""),
     dailyDate: new FormControl(new Date)
   });
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private dailyService: DailyService
   ) { }
 
   ngOnInit(): void {
+  }
+
+  handleFoodName(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.dailyService.getFoods({keyword: input.value});
+    this.foodsSub = this.dailyService.getFoodsUpdateListener().subscribe(res => {
+      this.foodsResult = res.result;
+    });
   }
 
 }
