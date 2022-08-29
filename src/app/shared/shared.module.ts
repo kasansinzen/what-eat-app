@@ -16,7 +16,7 @@ import { HeaderComponent } from './components/template/header/header.component';
   ],
   declarations: [
     TemplateComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
   imports: [
     CommonModule,
