@@ -6,6 +6,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 
 import { TemplateComponent } from './components/template/template.component';
 import { HeaderComponent } from './components/template/header/header.component';
+import { AlertDialogComponent } from './components/material/dialogs/alert-dialog/alert-dialog.component';
 
 @NgModule({
   exports: [
@@ -17,6 +18,7 @@ import { HeaderComponent } from './components/template/header/header.component';
   declarations: [
     TemplateComponent,
     HeaderComponent,
+    AlertDialogComponent,
   ],
   imports: [
     CommonModule,

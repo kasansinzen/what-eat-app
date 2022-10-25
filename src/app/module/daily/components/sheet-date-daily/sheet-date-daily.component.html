@@ -1,0 +1,28 @@
+
+  <mat-card-title>{{this.data.dateSelected | date}}</mat-card-title>
+  <mat-card-content>
+    <mat-list>
+      <form [formGroup]="this.foodDailyForm">
+        <ng-container formArrayName="items">
+          <ng-container *ngFor="let item of this.getFoodDailtFormItems.controls; let i = index">
+            <div mat-subheader>{{item.value.status}}</div>
+            <mat-list-item *ngFor="let dailyMeal of this.getDailyMealByStatus(item.value.status)">
+              <mat-icon mat-list-icon>restaurant</mat-icon>
+              <div mat-line *ngFor="let food of dailyMeal.foods; let i = index">{{i + 1}}. {{food}}</div>
+            </mat-list-item>
+  
+              <mat-list-item [formGroupName]="i">
+                <mat-form-field appearance="legacy">
+                  <mat-label>Add Food</mat-label>
+                  <input matInput placeholder="Ex. Pizza" formControlName="food">
+                </mat-form-field>
+                <button [disabled]="!item.value.food" type="button" mat-icon-button color="primary" (click)="this.handleAddFood(i)">
+                  <mat-icon mat-list-icon>add_box</mat-icon>
+                </button>
+              </mat-list-item>
+            <mat-divider *ngIf="(i + 1) !== this.getFoodDailtFormItems.controls.length"></mat-divider>
+          </ng-container>
+        </ng-container>
+      </form>
+    </mat-list>
+  </mat-card-content>

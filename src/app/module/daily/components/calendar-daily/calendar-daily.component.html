@@ -1,0 +1,7 @@
+<mat-card class="demo-inline-calendar-card">
+  <mat-calendar
+    *ngIf="!this.isLoading"
+    (selectedChange)="this.openBottomSheet($event)"
+    [dateClass]="this.dateClass"
+  ></mat-calendar>
+</mat-card>

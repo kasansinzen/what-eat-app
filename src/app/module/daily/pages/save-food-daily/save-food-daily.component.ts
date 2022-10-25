@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { RepastStatus } from '@core/enums/repast.enum';
-import { IFoodResult } from '@core/interfaces/api-food.interface';
+import { MealStatus } from '@core/enums/repast.enum';
 import { ApiService } from '@core/services/http/api.service';
 import { DailyService } from '@module/daily/daily.service';
 import { Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialogRef } from '@angular/material/dialog';
+import { IFoodResult } from '@core/interfaces/api-daily-meal.interface';
 
 @Component({
   selector: 'app-save-food-daily',
@@ -16,11 +17,12 @@ export class SaveFoodDailyComponent implements OnInit {
 
   foodsSub?: Subscription;
   foodsResult: IFoodResult[] = [];
-  repastStatusResult: string[] = Object.entries(RepastStatus).map(([value]) => value);
+  repastStatusResult: string[] = Object.entries(MealStatus).map(([value]) => value);
+  isSubmit: boolean = false;
 
   foodDailyForm: FormGroup = this.formBuilder.group({
     foodName: new FormControl<string>(""),
-    repastStatus: new FormControl<RepastStatus>(RepastStatus.BREAKFAST),
+    repastStatus: new FormControl<MealStatus>(MealStatus.BREAKFAST),
     dailyDate: new FormControl<Date>(new Date)
   });
 
@@ -29,19 +31,23 @@ export class SaveFoodDailyComponent implements OnInit {
     private dailyService: DailyService,
     private apiService: ApiService,
     private snackBar: MatSnackBar,
+    public dialogRef: MatDialogRef<SaveFoodDailyComponent>
   ) { }
 
   ngOnInit(): void {
   }
 
   handleSubmit(event: Event) {
-    this.apiService.createRepastAnDaily({
+    this.isSubmit = true;
+    this.apiService.createDailyMeal({
       foods: [this.foodDailyForm.get('foodName')?.value],
-      repastStatus: this.foodDailyForm.get('repastStauts')?.value,
-      sheduleDate: this.foodDailyForm.get('dailyDate')?.value,
+      mealStatus: this.foodDailyForm.get('repastStauts')?.value,
+      scheduleDate: this.foodDailyForm.get('dailyDate')?.value,
     }).subscribe(res => {
-      console.log("Submit", res);
+      this.dailyService.getDailyMeal();
       this.snackBar.open("Successfully, Create Daily", 'OK');
+      this.isSubmit = false;
+      this.dialogRef.close();
     });
   }
 

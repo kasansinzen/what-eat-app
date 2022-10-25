@@ -13,14 +13,19 @@
             (keypress)="this.handleFoodName($event)"
           >
           <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            <mat-option *ngFor="let food of this.foodsResult" [value]="food.title">{{food.title}}</mat-option>
+            <mat-option *ngFor="let food of this.foodsResult" [value]="food">{{food}}</mat-option>
           </mat-autocomplete>
         </mat-form-field>
       </div>
       <div [fxFlex]="50">
-        <mat-radio-group class="w-100" aria-label="Select an repast" formControlName="repastStatus">
-          <mat-radio-button *ngFor="let repastStatus of this.repastStatusResult" [value]="repastStatus">{{repastStatus}}</mat-radio-button>
-        </mat-radio-group>
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Repast Status</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let repastStatus of this.repastStatusResult" [value]="repastStatus">
+              {{repastStatus}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div [fxFlex]="50">
         <mat-form-field class="w-100" appearance="fill">
@@ -33,7 +38,8 @@
     </div>
 
     <div fxLayout="column" fxLayoutGap="10px">
-      <button type="submit" mat-raised-button color="primary">Save</button>
+      <button type="button" mat-raised-button color="default" mat-dialog-close>Cancel</button>
+      <button [disabled]="this.isSubmit" type="submit" mat-raised-button color="primary">Save</button>
     </div>
   </form>
 </div>
