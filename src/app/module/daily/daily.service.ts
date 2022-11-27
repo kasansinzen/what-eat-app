@@ -35,6 +35,7 @@ export class DailyService {
       this.resultDailyMealUpdate.next(res);
     });
   }
+  
   getDailyMealUpdateListener() {
     return this.resultDailyMealUpdate.asObservable();
   }

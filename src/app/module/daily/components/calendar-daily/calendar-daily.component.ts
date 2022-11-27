@@ -1,10 +1,10 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { SheetDateDailyComponent } from '@module/daily/components/sheet-date-daily/sheet-date-daily.component';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
-import * as moment from 'moment';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { IDailyMealResult } from '@core/interfaces/api-daily-meal.interface';
 import { DateService } from '@core/services/date.service';
+import { UtilService } from '@core/services/util.service';
 
 @Component({
   selector: 'app-calendar-daily',
@@ -21,13 +21,19 @@ export class CalendarDailyComponent implements OnInit, OnChanges {
   constructor(
     private bottomSheet: MatBottomSheet,
     private dateService: DateService,
+    private utilService: UtilService
   ) { }
 
   ngOnInit(): void {
+    this.datePickerClassHandler();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes['isLoading'] && this.isLoading === false) this.datePickerClassHandler();
+    const changeDailyMealResult = changes['dailyMealResult'];
+
+    if(changeDailyMealResult && !changeDailyMealResult.firstChange) {
+      this.utilService.reloadComponent();
+    }
   }
 
   datePickerClassHandler() { 

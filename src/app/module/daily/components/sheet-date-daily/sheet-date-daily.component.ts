@@ -45,10 +45,9 @@ export class SheetDateDailyComponent implements OnInit {
   }
 
   getDailyMeal(): void {
-    this.dailyService.getDailyMeal({scheduleDate: this.data.dateSelected});
-    this.dailyMealSub = this.dailyService.getDailyMealUpdateListener().subscribe(res => {
+    this.apiService.getDailyMeal({scheduleDate: this.data.dateSelected}).subscribe(res => {
       this.dailyMealResult = res.result.map((result, index) => ({no: index + 1, ...result}));
-    });
+    })
   }
 
   getDailyMealByStatus(status: MealStatus | any): IDailyMealResult[] {
@@ -69,6 +68,7 @@ export class SheetDateDailyComponent implements OnInit {
       });
 
       this.getDailyMeal();
+      this.dailyService.getDailyMeal();
       findItems.get('food')?.reset();
     });
   }

@@ -23,15 +23,7 @@ export class ApiService {
     return params;
   }
 
-  // searchFoods(request: IFoodRequest = {}): Observable<IFoodsResponse> {
-  //   return this.http.get<IFoodsResponse>(
-  //     this.urlService.getApi('/food/search'),
-  //     {params: this.setHttpParams(request)}
-  //   );
-  // }
-
   getDailyMeal(request: IDailyMealRequest): Observable<IDailyMealResponse> {
-    console.log('request--', request);
     return this.http.get<IDailyMealResponse>(
       this.urlService.getApi('/daily-meal'),
       {params: this.setHttpParams(request)}

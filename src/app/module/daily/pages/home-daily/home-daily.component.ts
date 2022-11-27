@@ -30,9 +30,14 @@ export class HomeDailyComponent implements OnInit {
     this.getDailyMeal();
   }
 
+  ngOnDestroy(): void {
+    this.dailyMealSub?.unsubscribe();
+  }
+
   getDailyMeal(): void {
     this.dailyService.getDailyMeal();
     this.dailyMealSub = this.dailyService.getDailyMealUpdateListener().subscribe(res => {
+      this.isLoading = true;
       this.dailyMealResult = res.result.map((result, index) => ({no: index + 1, ...result}));
       this.isLoading = false;
     });
