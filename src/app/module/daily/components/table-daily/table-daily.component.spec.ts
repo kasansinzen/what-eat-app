@@ -1,4 +1,6 @@
+import { Overlay } from '@angular/cdk/overlay';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog } from '@angular/material/dialog';
 
 import { TableDailyComponent } from './table-daily.component';
 
@@ -8,7 +10,11 @@ describe('TableDailyComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TableDailyComponent ]
+      declarations: [ TableDailyComponent ],
+      providers: [
+        Overlay,
+        { provide: MatDialog, useValue: [] }
+      ]
     })
     .compileComponents();
 
